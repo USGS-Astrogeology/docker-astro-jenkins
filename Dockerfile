@@ -4,10 +4,15 @@ MAINTAINER rbogle@usgs.gov
 RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo \
     && rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
-RUN yum install -y java-1.8.0-openjdk jenkins && yum clean all
+RUN yum install -y java-1.8.0-openjdk jenkins sssd-client cmake maven ansible && yum clean all
 
 # edited sysinit script to remove --daemon flag in cmd
 COPY etc/jenkins /etc/init.d/jenkins
+
+# we are mapping sssd from host for logins on jenkins
+# you must mount /var/lib/sss/pipes into the container
+# and use the unix auth with jenkins service in jenkins
+COPY etc/pam /etc/pam.d/jenkins
 
 # Add Tini to do PID 1 management
 ENV TINI_VERSION v0.15.0
