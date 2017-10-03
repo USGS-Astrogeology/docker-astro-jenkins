@@ -4,7 +4,8 @@ MAINTAINER rbogle@usgs.gov
 RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo \
     && rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
-RUN wget -O /etc/yum.repos.d/docker.repo https://download.docker.com/linux/centos/docker-ce.repo
+# we add the jenkins user/group to keep consistent uid/gid with persistent storage
+RUN groupadd -g 996 jenkins && useradd -d /var/lib/jenkins -M -g 996 -u 998 jenkins
 
 RUN yum install -y java-1.8.0-openjdk jenkins sssd-client && yum clean all
 
