@@ -4,7 +4,9 @@ MAINTAINER rbogle@usgs.gov
 RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo \
     && rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
 
-RUN yum install -y java-1.8.0-openjdk jenkins sssd-client cmake maven ansible && yum clean all
+RUN wget -O /etc/yum.repos.d/docker.repo https://download.docker.com/linux/centos/docker-ce.repo
+
+RUN yum install -y java-1.8.0-openjdk jenkins sssd-client && yum clean all
 
 # edited sysinit script to remove --daemon flag in cmd
 COPY etc/jenkins /etc/init.d/jenkins
