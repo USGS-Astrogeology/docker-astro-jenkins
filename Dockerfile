@@ -1,5 +1,6 @@
 FROM usgsastro/centos7:latest
 MAINTAINER rbogle@usgs.gov
+ENV JenkinsVer 2.84
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo \
     && rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
@@ -7,7 +8,7 @@ RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenki
 # we add the jenkins user/group to keep consistent uid/gid with persistent storage
 RUN groupadd -g 996 jenkins && useradd -d /var/lib/jenkins -M -g 996 -u 998 jenkins
 
-RUN yum install -y java-1.8.0-openjdk jenkins sssd-client && yum clean all
+RUN yum install -y java-1.8.0-openjdk jenkins-${JenkinsVer} sssd-client && yum clean all
 
 # edited sysinit script to remove --daemon flag in cmd
 COPY etc/jenkins /etc/init.d/jenkins
