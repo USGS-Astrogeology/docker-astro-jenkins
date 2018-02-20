@@ -1,6 +1,6 @@
 FROM usgsastro/centos7:latest
 MAINTAINER rbogle@usgs.gov
-ENV JenkinsVer 2.84
+ENV JenkinsVer 2.108
 
 RUN wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo \
     && rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
